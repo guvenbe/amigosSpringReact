@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import "./App.css";
+import Container from "./Container";
 import {getAllStudents} from "./client";
-import {Table} from 'antd';
+import {Table, Avatar} from 'antd';
 
 
 class App extends Component {
@@ -46,6 +47,17 @@ class App extends Component {
 
         const columns = [
             {
+                title: '',
+                key: 'avatar',
+                render: (text, student) =>(
+                    <Avatar size='large'>
+                        {`${student.firstName.charAt(0).toUpperCase()} 
+                        ${student.lastName.charAt(0).toUpperCase()}`}
+
+                    </Avatar>
+                )
+            },
+            {
                 title: 'StudentId',
                 dataIndex: 'StudentId',
                 key: 'StudentId'
@@ -72,11 +84,14 @@ class App extends Component {
 
         ];
         return (
-            <Table
-                dataSource={students}
-                columns={columns}
-                rowKey='studentId'
-            />
+            <Container>
+                <Table
+                    dataSource={students}
+                    columns={columns}
+                    pagination={false}
+                    rowKey='studentId'
+                />
+            </Container>
 
         );
 
