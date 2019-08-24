@@ -3,7 +3,7 @@ package com.amigoscode.demo.domain;
 import java.util.UUID;
 
 public class Student {
-    private final UUID studendId;
+    private final UUID studentId;
     private final String firstName;
     private final String lastName;
     private final String email;
@@ -15,7 +15,7 @@ public class Student {
                    String email,
                    Gender gender)
     {
-        this.studendId = studendId;
+        this.studentId = studendId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -24,8 +24,8 @@ public class Student {
 
     public enum Gender{MALE, FEMALE}
 
-    public UUID getStudendId() {
-        return studendId;
+    public UUID getStudentId() {
+        return studentId;
     }
 
     public String getFirstName() {
