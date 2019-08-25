@@ -2,13 +2,15 @@ import React, {Component} from "react";
 import "./App.css";
 import Container from "./Container";
 import {getAllStudents} from "./client";
-import {Table, Avatar} from 'antd';
+import {Table, Avatar, Spin, Icon} from 'antd';
 
+const getIndicatorIcon = () => <Icon type="loading" style= {{fontSize: 20}}/>;
 
 class App extends Component {
 
     state = {
-        students: []
+        students: [],
+        isFetching: false
     };
 
     componentDidMount() {
@@ -16,17 +18,34 @@ class App extends Component {
     }
 
     fetchStudents = () => {
+        this.setState({
+            isFetching: true
+        });
         getAllStudents()
             .then(res => res.json()
                 .then(students => {
                     console.log(students);
-                    this.setState({students});
+                    this.setState({
+                        students,
+                        isFetching: false
+                    });
 
                 }));
     };
 
     render() {
-        const {students} = this.state;
+
+        const antIcon =<Icon type="loading" style= {{fontSize: 20}}/>
+        const {students, isFetching} = this.state;
+
+        if (isFetching){
+            return(
+                <Container>
+                    <Spin indicator={getIndicatorIcon()}/>
+                </Container>
+            );
+
+        }
 
         //****************Below is without antd
         /*        if (students && students.length){
