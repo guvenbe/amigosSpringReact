@@ -1,21 +1,29 @@
 import React, {Component} from "react";
 import "./App.css";
 import Container from "./Container";
+import Footer from "./Footer";
 import {getAllStudents} from "./client";
-import {Table, Avatar, Spin, Icon} from 'antd';
+import {Table, Avatar, Spin, Icon, Modal} from 'antd';
 
-const getIndicatorIcon = () => <Icon type="loading" style= {{fontSize: 20}}/>;
+const getIndicatorIcon = () => <Icon type="loading" style={{fontSize: 20}}/>;
 
 class App extends Component {
 
     state = {
         students: [],
-        isFetching: false
+        isFetching: false,
+        isAddStudentModalVisible: false
     };
+
+
 
     componentDidMount() {
         this.fetchStudents();
     }
+
+    openAddStudentModal = () =>this.setState({isAddStudentModalVisible: true});
+
+    closeAddStudentModal = () =>this.setState({isAddStudentModalVisible: false});
 
     fetchStudents = () => {
         this.setState({
@@ -35,11 +43,11 @@ class App extends Component {
 
     render() {
 
-        const antIcon =<Icon type="loading" style= {{fontSize: 20}}/>
-        const {students, isFetching} = this.state;
+        // const antIcon =<Icon type="loading" style= {{fontSize: 20}}/>
+        const {students, isFetching, isAddStudentModalVisible} = this.state;
 
-        if (isFetching){
-            return(
+        if (isFetching) {
+            return (
                 <Container>
                     <Spin indicator={getIndicatorIcon()}/>
                 </Container>
@@ -68,7 +76,7 @@ class App extends Component {
             {
                 title: '',
                 key: 'avatar',
-                render: (text, student) =>(
+                render: (text, student) => (
                     <Avatar size='large'>
                         {`${student.firstName.charAt(0).toUpperCase()} 
                         ${student.lastName.charAt(0).toUpperCase()}`}
@@ -110,10 +118,19 @@ class App extends Component {
                     pagination={false}
                     rowKey='studentId'
                 />
+                <Modal
+                    title="Add new student"
+                    visible={isAddStudentModalVisible}
+                    onOk={this.closeAddStudentModal}
+                    onCancel={this.closeAddStudentModal}
+                    witdh={1000}>
+                    <h1>Hello Modal with Antd</h1>
+                </Modal>
+                <Footer
+                    numberOfStudents={students.length}
+                    handleAddStudentClickEvent={this.openAddStudentModal}/>
             </Container>
-
         );
-
 
     }
 }
